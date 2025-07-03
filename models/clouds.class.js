@@ -7,7 +7,11 @@ class Clouds extends MovableObject {
         super().loadImage(imagePath);
 
         this.x = Math.random() * 600;
-
+        this.animate();
     }
 
+
+    animate() {
+        this.moveLeft();
+    };
 }
