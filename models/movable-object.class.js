@@ -4,6 +4,7 @@ class MovableObject {
     imageCache = {};
     currentImage = 0;
     speed = 0.3;
+    otherDirection = false;
 
     loadImage(path) {
         this.img = new Image(); // this.img = document.ge ElementById('image') <img id="image" src>
