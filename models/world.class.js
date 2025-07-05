@@ -1,24 +1,12 @@
 class World {
     character = new Character();
-    enemies = [
-        new Chicken(),
-        new Chicken(),
-        new Chicken(),
-    ];
-    clouds = [
-        new Clouds('img/5_background/layers/4_clouds/1.png'),
-        new Clouds('img/5_background/layers/4_clouds/2.png'),
-    ];
-    backgroundObjects = [
-        new BackgroundObject('img/5_background/layers/air.png', 0),
-        new BackgroundObject('img/5_background/layers/3_third_layer/1.png', 0),
-        new BackgroundObject('img/5_background/layers/2_second_layer/1.png', 0),
-        new BackgroundObject('img/5_background/layers/1_first_layer/1.png', 0),
-    ];
-
+    enemies = level1.enemies;
+    clouds = level1.clouds;
+    backgroundObjects = level1.backgroundObjects;
     canvas;
     ctx; // kurzform für context
     keyboard;
+    cameraX = 0;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -28,14 +16,19 @@ class World {
         this.setWorld();
     }
 
+    setWorld() {
+        this.character.world = this;
+
+    }
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
+        this.ctx.translate(this.cameraX, 0);
         this.addObjectsToMap(this.backgroundObjects);
         this.addObjectsToMap(this.clouds);
         this.addToMap(this.character);
         this.addObjectsToMap(this.enemies);
+        this.ctx.translate(-this.cameraX, 0);
 
 
         let self = this // muss so gehandhabt werden, da "this" innerhalb der Funktion nicht erkannt wird
@@ -53,7 +46,7 @@ class World {
     addToMap(mo) {
         if (mo.otherDirection) {
             this.ctx.save();
-            this.ctx.translate(mo.height, 0);
+            this.ctx.translate(mo.width, 0);
             this.ctx.scale(-1, 1);
             mo.x = mo.x * -1;
         }
@@ -65,8 +58,4 @@ class World {
 
     }
 
-    setWorld() {
-        this.character.world = this;
-
-    }
 }
