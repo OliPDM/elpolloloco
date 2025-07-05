@@ -1,6 +1,6 @@
 class Clouds extends MovableObject {
-    height = 400;
-    width = 250;
+    height = 300;
+    width = 400;
     y = 10;
 
     constructor(imagePath) {

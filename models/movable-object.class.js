@@ -1,6 +1,6 @@
 class MovableObject {
     img;
-    y = 170;
+    y = 200;
     imageCache = {};
     currentImage = 0;
     speed = 0.3;

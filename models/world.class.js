@@ -33,9 +33,9 @@ class World {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.addObjectsToMap(this.backgroundObjects);
-        // this.addObjectsToMap(this.clouds);
+        this.addObjectsToMap(this.clouds);
         this.addToMap(this.character);
-        // this.addObjectsToMap(this.enemies);
+        this.addObjectsToMap(this.enemies);
 
 
         let self = this // muss so gehandhabt werden, da "this" innerhalb der Funktion nicht erkannt wird
@@ -57,7 +57,7 @@ class World {
             this.ctx.scale(-1, 1);
             mo.x = mo.x * -1;
         }
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.height, mo.width);
+        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
         if (mo.otherDirection) {
             mo.x = mo.x * -1;
             this.ctx.restore();

@@ -17,7 +17,7 @@ window.addEventListener("keydown", (e) => {
         keyboard.LEFT = true;
     }
     if (e.keyCode == 38) {
-        keyboard.UP = ture;
+        keyboard.UP = true;
     }
     if (e.keyCode == 32) {
         keyboard.SPACE = true;
