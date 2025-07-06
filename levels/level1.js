@@ -25,5 +25,8 @@ const level1 = new Level(
     ],
     [
         new Coin('img/8_coin/coin_1.png', 0),
+        new Coin('img/8_coin/coin_1.png', 0),
+        new Coin('img/8_coin/coin_1.png', 0),
+        new Coin('img/8_coin/coin_1.png', 0),
     ]
 );
