@@ -20,17 +20,6 @@ class MovableObject extends DrawableObjcet {
         return this.y < 190;
     }
 
-
-    drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken) {
-            ctx.beginPath();
-            ctx.lineWidth = '3';
-            ctx.strokeStyle = 'blue';
-            ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.stroke();
-        }
-    }
-
     isColliding(mo) {
         return this.x + this.width > mo.x &&
             this.y + this.height > mo.y &&
@@ -56,7 +45,6 @@ class MovableObject extends DrawableObjcet {
         timepassed = timepassed / 1000;
         return timepassed < 1;
     }
-
 
     moveRight() {
         // movement right

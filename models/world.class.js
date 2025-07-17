@@ -9,6 +9,9 @@ class World {
     ctx; // kurzform für context
     keyboard;
     cameraX = 0;
+    statusBar = new Statusbar();
+    coinBar = new Coinbar();
+    bottleBar = new Bottlebar();
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -29,7 +32,7 @@ class World {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy)) {
                     this.character.hit();
-                    console.log('Collision with Character', 'enemy', this.character.energy);
+                    this.statusBar.setPercentage(this.character.energy);
                 }
             })
         }, 1000);
@@ -39,8 +42,17 @@ class World {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.cameraX, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
-        this.addToMap(this.character);
         this.addObjectsToMap(this.level.clouds);
+
+        this.ctx.translate(-this.cameraX, 0); // Back
+        // ----- space for fixed objects ----- //
+        this.addToMap(this.coinBar);
+        this.addToMap(this.statusBar);
+        this.addToMap(this.bottleBar);
+        this.ctx.translate(this.cameraX, 0); // Forwards
+
+        this.addToMap(this.character);
+
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.enemies);
         this.ctx.translate(-this.cameraX, 0);
