@@ -1,4 +1,4 @@
-class MovableObject extends DrawableObjcet {
+class MoveableObject extends DrawableObjcet {
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
