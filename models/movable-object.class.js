@@ -1,8 +1,5 @@
-class MovableObject {
-    img;
-    imageCache = {};
-    currentImage = 0;
-    speed = 0.3;
+class MovableObject extends DrawableObjcet {
+    speed = 0.15;
     otherDirection = false;
     speedY = 0;
     acceleration = 2.5;
@@ -23,14 +20,6 @@ class MovableObject {
         return this.y < 190;
     }
 
-    loadImage(path) {
-        this.img = new Image(); // this.img = document.ge ElementById('image') <img id="image" src>
-        this.img.src = path;
-    }
-
-    draw(ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-    }
 
     drawFrame(ctx) {
         if (this instanceof Character || this instanceof Chicken) {
@@ -68,13 +57,6 @@ class MovableObject {
         return timepassed < 1;
     }
 
-    loadImages(arr) {
-        arr.forEach((path) => {
-            let img = new Image();
-            img.src = path;
-            this.imageCache[path] = img;
-        });
-    }
 
     moveRight() {
         // movement right
