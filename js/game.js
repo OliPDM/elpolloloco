@@ -9,6 +9,10 @@ function init() {
     console.log('my Character is', world.character);
 }
 
+function reloadSite() {
+    location.reload();
+}
+
 window.addEventListener("keydown", (e) => {
     if (e.keyCode == 39) {
         keyboard.RIGHT = true;

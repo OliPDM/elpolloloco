@@ -4,7 +4,7 @@ class World {
     enemies = level1.enemies;
     clouds = level1.clouds;
     backgroundObjects = level1.backgroundObjects;
-    coins = level1.coins;
+    // coins = level1.coins;
     canvas;
     ctx; // kurzform für context
     keyboard;
@@ -13,6 +13,7 @@ class World {
     coinBar = new Coinbar();
     bottleBar = new Bottlebar();
     throwableObjects = [];
+    collectableObjects = [];
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -25,13 +26,14 @@ class World {
 
     setWorld() {
         this.character.world = this;
-
+        this.setCollectableObjects();
     }
 
     run() {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
+            this.checkCollectableCollisions();
         }, 200);
     }
 
@@ -51,6 +53,23 @@ class World {
         }
     }
 
+    setCollectableObjects() {
+        let coins = new Coin();
+        this.collectableObjects.push(coins);
+    };
+
+    checkCollectableCollisions() {
+        this.collectableObjects.forEach((mo, index) => {
+            if (this.character.isColliding(mo)) {
+                this.character.coins++;
+                this.coinBar.setPercentage(this.character.coins); // optional
+                this.collectableObjects.splice(index, 1);
+                console.log('Collected coin! Total:', this.character.coins);
+            }
+        });
+    }
+
+
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.cameraX, 0);
@@ -65,9 +84,10 @@ class World {
         this.ctx.translate(this.cameraX, 0); // Forwards
 
         this.addToMap(this.character);
-        this.addObjectsToMap(this.level.coins);
+        // this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);
+        this.addObjectsToMap(this.collectableObjects);
         this.ctx.translate(-this.cameraX, 0);
 
 

@@ -7,3 +7,8 @@ body {
 canvas {
     background-color: black;
 }
+
+.start-button {
+    width: 100px;
+    cursor: pointer;
+}
