@@ -12,7 +12,9 @@ class World {
     coinBar = new Coinbar();
     bottleBar = new Bottlebar();
     throwableObjects = [];
-    collectableObjects = [];
+    // collectableObjects = [];
+    collectedCoins = [];
+    collectedBottles = [];
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -46,14 +48,24 @@ class World {
         })
     }
 
-    // checkCoinCollisions() {
-    //     this.level.coins.forEach((coin) => {
-    //         if (this.character.isColliding(coin)) {
-    //             this.character.hit();
-    //             this.coinBar.setPercentageCoin(this.character.coins);
-    //         }
-    //     })
-    // }
+    setCollectableObjects() {
+        this.setCoins();
+        this.setBottles();
+    };
+
+    setCoins() {
+        for (let i = 0; i < 5; i++) {
+            let coins = new Coin();
+            this.collectedCoins.push(coins);
+        }
+    }
+
+    setBottles() {
+        for (let i = 0; i < 1; i++) {
+            let bottle = new Bottle();
+            this.collectedBottles.push(bottle);
+        }
+    }
 
     checkThrowObjects() {
         if (this.keyboard.SPACE) {
@@ -62,20 +74,29 @@ class World {
         }
     }
 
-    setCollectableObjects() {
-        for (let i = 0; i < 5; i++) {
-            let coins = new Coin();
-            this.collectableObjects.push(coins);
-        }
-    };
-
     checkCollectableCollisions() {
-        this.collectableObjects.forEach((mo, index) => {
+        this.checkCollectedCoins();
+        this.checkCollectedBottles();
+    }
+
+    checkCollectedCoins() {
+        this.collectedCoins.forEach((mo, index) => {
             if (this.character.isColliding(mo)) {
-                mo.collect(this.character);
-                this.coinBar.setPercentageCoin(this.character.coins); // optional
-                this.collectableObjects.splice(index, 1);
+                mo.collectCoin(this.character);
+                this.coinBar.setPercentageCoin(this.character.coins);
+                this.collectedCoins.splice(index, 1);
                 console.log('Collected coin! Total:', this.character.coins);
+            }
+        });
+    }
+
+    checkCollectedBottles() {
+        this.collectedBottles.forEach((mo, index) => {
+            if (this.character.isColliding(mo)) {
+                mo.collectBottle(this.character);
+                this.bottleBar.setPercentageBottle(this.character.bottles); // optional
+                this.collectedBottles.splice(index, 1);
+                console.log('Collected Bottles! Total:', this.character.bottles);
             }
         });
     }
@@ -96,7 +117,8 @@ class World {
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);
-        this.addObjectsToMap(this.collectableObjects);
+        this.addObjectsToMap(this.collectedCoins);
+        this.addObjectsToMap(this.collectedBottles);
         this.ctx.translate(-this.cameraX, 0);
 
 
