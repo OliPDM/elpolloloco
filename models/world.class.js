@@ -30,20 +30,30 @@ class World {
 
     run() {
         setInterval(() => {
-            this.checkCollisions();
+            this.checkEnemyCollisions();
+            // this.checkCoinCollisions();
             this.checkThrowObjects();
             this.checkCollectableCollisions();
-        }, 50);
+        }, 200);
     }
 
-    checkCollisions() {
+    checkEnemyCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
-                this.statusBar.setPercentage(this.character.energy);
+                this.statusBar.setPercentageHealth(this.character.energy);
             }
         })
     }
+
+    // checkCoinCollisions() {
+    //     this.level.coins.forEach((coin) => {
+    //         if (this.character.isColliding(coin)) {
+    //             this.character.hit();
+    //             this.coinBar.setPercentageCoin(this.character.coins);
+    //         }
+    //     })
+    // }
 
     checkThrowObjects() {
         if (this.keyboard.SPACE) {
@@ -53,7 +63,7 @@ class World {
     }
 
     setCollectableObjects() {
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 5; i++) {
             let coins = new Coin();
             this.collectableObjects.push(coins);
         }
@@ -63,7 +73,7 @@ class World {
         this.collectableObjects.forEach((mo, index) => {
             if (this.character.isColliding(mo)) {
                 mo.collect(this.character);
-                this.coinBar.setPercentage(this.character.coins); // optional
+                this.coinBar.setPercentageCoin(this.character.coins); // optional
                 this.collectableObjects.splice(index, 1);
                 console.log('Collected coin! Total:', this.character.coins);
             }
