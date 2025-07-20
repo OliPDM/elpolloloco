@@ -1,4 +1,4 @@
-class Coin extends CollactableObject {
+class Coin extends CollectableObject {
     width = 90;
     height = 90;
     IMAGES_MOVING = [

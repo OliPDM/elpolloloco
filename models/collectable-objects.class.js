@@ -1,21 +1,18 @@
-class CollactableObject extends MovableObject {
-    // coins = [];
+class CollectableObject extends MovableObject {
+    collected = false;
+
 
     constructor() {
         super();
-        // this.collectItem();
+
     }
 
-    // collectItem(coins) {
-    //     if (this.isCollecting(coins)) {
-    //         coins++;
-    //     }
-    //     console.log('number of Coins=', coins);
-    // }
-
-    // isCollecting() {
-    //     this.character && this.coins == this.isColliding();
-    // }
-
+    collect(character) {
+        if (!this.collected) {
+            this.collected = true;
+            character.coins++;
+        }
+        console.log('number of Coins=', character.coins);
+    }
 
 }
