@@ -82,7 +82,6 @@ class World {
         if (this.currentBottleCount < this.maxBottles) {
             let bottle = new Bottle();
             this.collectedBottles.push(bottle);
-            this.currentBottleCount++;
         }
     }
 
@@ -107,9 +106,10 @@ class World {
     // }
 
     checkThrowObjects() {
-        if (this.keyboard.SPACE) {
+        if (this.keyboard.SPACE && this.currentBottleCount > 0) {
             let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 100);
             this.throwableObjects.push(bottle);
+            this.currentBottleCount--;
         }
     }
 
@@ -135,6 +135,7 @@ class World {
                 mo.collectBottle(this.character);
                 this.bottleBar.setPercentageBottle(this.character.bottles); // optional
                 this.collectedBottles.splice(index, 1);
+                this.currentBottleCount++;
                 console.log('Collected Bottles! Total:', this.character.bottles);
                 this.setNextBottle();
             }
