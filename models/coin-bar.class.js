@@ -22,11 +22,11 @@ class Coinbar extends DrawableObjcet {
 
     setPercentageCoin(percentageCoin) {
         this.percentageCoin = percentageCoin;
-        let path = this.IMAGES_COINS[this.resolveCoinImageIndex()];
+        let path = this.IMAGES_COINS[this.addCollectedCoin()];
         this.img = this.imageCache[path];
     }
 
-    resolveCoinImageIndex() {
+    addCollectedCoin() {
         if (this.percentageCoin == 5) {
             return 5;
         } else if (this.percentageCoin > 3) {

@@ -22,11 +22,11 @@ class Bottlebar extends DrawableObjcet {
 
     setPercentageBottle(percentageBottle) {
         this.percentageBottle = percentageBottle;
-        let path = this.IMAGES_BOTTLE[this.resolveBottleImageIndex()];
+        let path = this.IMAGES_BOTTLE[this.addCollectedBottle()];
         this.img = this.imageCache[path];
     }
 
-    resolveBottleImageIndex() {
+    addCollectedBottle() {
         if (this.percentageBottle == 5) {
             return 5;
         } else if (this.percentageBottle > 3) {

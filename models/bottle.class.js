@@ -7,7 +7,7 @@ class Bottle extends CollectableObject {
     constructor() {
         super().loadImage(this.IMAGES_BOTTLE[0]);
         this.loadImages(this.IMAGES_BOTTLE);
-        this.x = 200 + Math.random() * 300;
+        this.x = 200 + Math.random() * 1000;
         this.y = 355;
     }
 

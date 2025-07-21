@@ -60,12 +60,51 @@ class World {
         }
     }
 
+    // varainte 1
+
+    // setBottles() {
+    //     for (let i = 0; i < 5; i++) {
+    //         let bottle = new Bottle();
+    //         this.collectedBottles.push(bottle);
+    //     }
+    // }
+
+    //variante 2
+
+    maxBottles = 5;
+    currentBottleCount = 0;
+
     setBottles() {
-        for (let i = 0; i < 1; i++) {
+        this.setNextBottle();
+    }
+
+    setNextBottle() {
+        if (this.currentBottleCount < this.maxBottles) {
             let bottle = new Bottle();
             this.collectedBottles.push(bottle);
+            this.currentBottleCount++;
         }
     }
+
+    // varainte 3
+
+    // setBottles() {
+    //     let bottleCounter = 0;
+    //     let maxBottles = 5;
+
+    //     let intervallId = setInterval(() => {
+
+    //         let bottle = new Bottle();
+    //         this.collectedBottles.push(bottle);
+    //         bottleCounter++;
+
+    //         if (bottleCounter >= maxBottles) {
+    //             clearInterval(intervallId);
+    //             console.log('Finished setting Bottles.');
+    //         }
+    //     }, 2000);
+
+    // }
 
     checkThrowObjects() {
         if (this.keyboard.SPACE) {
@@ -97,6 +136,7 @@ class World {
                 this.bottleBar.setPercentageBottle(this.character.bottles); // optional
                 this.collectedBottles.splice(index, 1);
                 console.log('Collected Bottles! Total:', this.character.bottles);
+                this.setNextBottle();
             }
         });
     }
