@@ -1,7 +1,6 @@
 class CollectableObject extends MovableObject {
     collected = false;
 
-
     constructor() {
         super();
 
@@ -12,15 +11,16 @@ class CollectableObject extends MovableObject {
             this.collected = true;
             character.coins++;
         }
-        console.log('number of Coins=', character.coins);
+        // console.log('number of Coins=', character.coins);
     }
 
-    collectBottle(character) {
+    collectBottle(world) {
         if (!this.collected) {
             this.collected = true;
-            character.bottles++;
+            world.currentBottleCount++;
+            world.bottleBar.setPercentageBottle(world.currentBottleCount);
         }
-        console.log('number of Bottles=', character.bottles);
+        console.log('number of Bottles=', world.currentBottleCount);
     }
 
 }
