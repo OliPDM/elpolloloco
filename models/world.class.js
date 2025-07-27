@@ -23,6 +23,7 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
+        this.collisions();
     }
 
     setWorld() {
@@ -36,7 +37,14 @@ class World {
             // this.checkCoinCollisions();
             this.checkThrowObjects();
             this.checkCollectableCollisions();
+            this.checkBottleHitsEnemies();
         }, 200);
+    }
+
+    collisions() {
+        setInterval(() => {
+            this.checkBottleHitsEnemies();
+        }, 50);
     }
 
     checkEnemyCollisions() {
@@ -47,6 +55,23 @@ class World {
             }
         })
     }
+
+    checkBottleHitsEnemies() {
+        this.throwableObjects.forEach((bottle, bottleIndex) => {
+            this.level.enemies.forEach((enemy, enemyIndex) => {
+                if (!enemy.isDead() && bottle.isColliding(enemy)) {
+                    // console.log('Kollision!', bottle.x, bottle.y, enemy.x, enemy.y);
+                    enemy.hit();
+                    this.throwableObjects.splice(bottleIndex, 1); // Bottle verschwindet
+                    // console.log(`Enemy hit! Remaining energy: ${enemy.energy}`);
+                    setTimeout(() => {
+                        this.level.enemies.splice(enemyIndex, 1);
+                    }, 300)
+                }
+            });
+        });
+    }
+
 
     setCollectableObjects() {
         this.setCoins();
