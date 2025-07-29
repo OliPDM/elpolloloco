@@ -25,9 +25,15 @@ class MovableObject extends DrawableObjcet {
 
     isColliding(mo) {
         return this.x + this.width > mo.x &&
-            this.y + this.height > mo.y &&
             this.x < mo.x &&
             this.y < mo.y + mo.height
+    }
+
+    isStomping(mo) {
+        return this.isColliding(mo) &&
+            this.y + this.height > mo.y &&
+            this.y + this.height < mo.y + mo.height / 2 &&
+            this.speedY < 0
     }
 
     hit() {
