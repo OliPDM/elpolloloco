@@ -3,8 +3,3 @@ function startGame() {
     document.getElementById('canvas').classList.remove('dNone');
     init();
 }
-
-
-function reloadSite() {
-    location.reload();
-}

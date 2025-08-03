@@ -2,11 +2,38 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: 'zabars', Arial, Helvetica, sans-serif;
+}
+
+@font-face {
+    font-family: 'zabars';
+    src: url('fonts/ZABARS/zabars.ttf') format('truetype');
 }
 
 canvas {
     background-color: black;
     border: 2px solid black;
+    display: block;
+}
+
+/* Smartphones ---------- */
+@media only screen and (max-width: 720px) {
+    canvas {
+        width: 100%;
+    }
+}
+
+/* Smartphones ---------- */
+@media only screen and (max-height: 480px) {
+    canvas {
+        height: 100vh;
+    }
+}
+
+h1 {
+    font-size: 64px;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 .dNone {
@@ -31,5 +58,4 @@ canvas {
     display: flex;
     justify-content: space-between;
     padding: 12px;
-    ;
 }
