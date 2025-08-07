@@ -25,23 +25,48 @@ class MovableObject extends DrawableObjcet {
 
     isColliding(mo) {
         return this.x + this.width > mo.x &&
-            this.x < mo.x &&
-            this.y < mo.y + mo.height
+            this.x < mo.x + mo.width &&
+            this.y + this.height > mo.y &&
+            this.y < mo.y + mo.height;
     }
+
+    // isStomping(mo) {
+    //     return this.isColliding(mo) &&
+    //         this.y + this.height <= mo.y + mo.height / 2 &&
+    //         this.speedY < 0
+    // }
 
     isStomping(mo) {
-        this.y + this.height <= mo.y + mo.height &&
-            this.speedY < 0
+        let isColliding = this.isColliding(mo);
+        let fromAbove = this.y + this.height >= mo.y && this.y + this.height <= mo.y + mo.height * 0.3;
+        let fallingDown = this.speedY < 0;
+
+        return isColliding && fromAbove && fallingDown;
     }
 
+
+    // hit() {
+    //     this.energy -= 2;
+    //     if (this.energy < 0) {
+    //         this.energy = 0;
+    //     } else {
+    //         this.lastHit = new Date().getTime();
+    //     }
+    // }
+
     hit() {
-        this.energy -= 2;
-        if (this.energy < 0) {
-            this.energy = 0;
-        } else {
-            this.lastHit = new Date().getTime();
+        const now = new Date().getTime();
+        const timeSinceLastHit = now - this.lastHit;
+
+        if (timeSinceLastHit > 1000) {
+            this.energy -= 2;
+            if (this.energy < 0) {
+                this.energy = 0;
+            }
+            this.lastHit = now;
         }
     }
+
 
     isDead() {
         return this.energy == 0;
