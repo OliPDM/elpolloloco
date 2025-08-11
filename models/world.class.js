@@ -15,6 +15,7 @@ class World {
     // collectableObjects = [];
     collectedCoins = [];
     collectedBottles = [];
+    stompedEnemies = [];
     maxBottles = 5;
     currentBottleCount = 0;
 
@@ -41,44 +42,62 @@ class World {
         }, 200);
     }
 
+    // collisions() {
+    //     setInterval(() => {
+    //         this.checkBottleHitsEnemies();
+    //         this.checkJumpCollisions();
+    //         this.checkEnemyCollisions();
+    //     }, 10);
+    // }
+
     collisions() {
         setInterval(() => {
             this.checkBottleHitsEnemies();
             this.checkCharacterEnemyInteractions();
-        }, 50);
+        }, 10);
+    }
+
+    checkCharacterEnemyInteractions() {
+        let stomped = false;
+
+        for (let i = 0; i < this.level.enemies.length; i++) {
+            const enemy = this.level.enemies[i];
+            if (enemy.isDead()) continue;
+
+            if (this.character.isStomping(enemy)) {
+                enemy.hit();
+                this.stompedEnemies.push(enemy);
+                console.log('hit enemy count:', this.stompedEnemies);
+                stomped = true;
+                this.level.enemies.splice(i, 1);
+                i--;
+                continue;
+            }
+            if (this.character.isColliding(enemy)) {
+                this.character.hit();
+                this.statusBar.setPercentageHealth(this.character.energy);
+                break;
+            }
+        }
+        if (stomped) {
+            this.character.speedY = 15;
+        }
     }
 
     // checkCharacterEnemyInteractions() {
     //     this.level.enemies.forEach((enemy, enemyIndex) => {
-    //         if (!this.character.isColliding(enemy)) return;
-
-    //         if (this.character.isStomping(enemy)) {
+    //         if (!enemy.isDead() && this.character.isStomping(enemy)) {
     //             enemy.hit();
     //             this.character.speedY = 15;
     //             setTimeout(() => {
     //                 this.level.enemies.splice(enemyIndex, 1);
-    //             }, 300);
-    //         } else {
+    //             }, 250);
+    //         } else if (!enemy.isDead() && this.character.isColliding(enemy)) {
     //             this.character.hit();
     //             this.statusBar.setPercentageHealth(this.character.energy);
     //         }
     //     });
     // }
-
-    checkCharacterEnemyInteractions() {
-        this.level.enemies.forEach((enemy, enemyIndex) => {
-            if (!enemy.isDead() && this.character.isStomping(enemy)) {
-                enemy.hit();
-                this.character.speedY = 15;
-                setTimeout(() => {
-                    this.level.enemies.splice(enemyIndex, 1);
-                }, 300);
-            } else if (!enemy.isDead() && this.character.isColliding(enemy)) {
-                this.character.hit();
-                this.statusBar.setPercentageHealth(this.character.energy);
-            }
-        });
-    }
 
 
 
@@ -99,7 +118,7 @@ class World {
     //             this.character.speedY = 15;
     //             setTimeout(() => {
     //                 this.level.enemies.splice(enemyIndex, 1);
-    //             }, 300)
+    //             }, 250)
     //         }
     //     })
     // }
