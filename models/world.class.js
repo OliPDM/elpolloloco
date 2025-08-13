@@ -58,31 +58,33 @@ class World {
     }
 
     checkCharacterEnemyInteractions() {
-        let stomped = false;
-
         for (let i = 0; i < this.level.enemies.length; i++) {
             const enemy = this.level.enemies[i];
             if (enemy.isDead()) continue;
-
-            if (this.character.isStomping(enemy)) {
-                enemy.hit();
-                this.stompedEnemies.push(enemy);
-                console.log('hit enemy count:', this.stompedEnemies);
-                stomped = true;
-                this.level.enemies.splice(i, 1);
-                i--;
-                continue;
-            }
-            if (this.character.isColliding(enemy)) {
-                this.character.hit();
-                this.statusBar.setPercentageHealth(this.character.energy);
-                break;
-            }
-        }
-        if (stomped) {
-            this.character.speedY = 15;
+            this.checkJumpCollisions(enemy, i);
+            this.checkEnemyCollisions(enemy);
         }
     }
+
+    checkJumpCollisions(enemy, i) {
+        if (this.character.isStomping(enemy)) {
+            enemy.hit();
+            this.stompedEnemies.push(enemy);
+            // console.log('hit enemy count:', this.stompedEnemies);
+            this.level.enemies.splice(i, 1);
+            this.character.speedY = 15;
+            this.character.justStomped = true;
+            setTimeout(() => (this.character.justStomped = false), 200);
+        }
+    }
+
+    checkEnemyCollisions(enemy) {
+        if (!this.character.justStomped && this.character.isColliding(enemy)) {
+            this.character.hit();
+            this.statusBar.setPercentageHealth(this.character.energy);
+        }
+    }
+
 
     // checkCharacterEnemyInteractions() {
     //     this.level.enemies.forEach((enemy, enemyIndex) => {
@@ -97,30 +99,6 @@ class World {
     //             this.statusBar.setPercentageHealth(this.character.energy);
     //         }
     //     });
-    // }
-
-
-
-    // checkEnemyCollisions() {
-    //     this.level.enemies.forEach((enemy) => {
-    //         if (this.character.isColliding(enemy) &&
-    //             !this.character.isStomping(enemy)) {
-    //             this.character.hit();
-    //             this.statusBar.setPercentageHealth(this.character.energy);
-    //         }
-    //     });
-    // }
-
-    // checkJumpCollisions() {
-    //     this.level.enemies.forEach((enemy, enemyIndex) => {
-    //         if (!enemy.isDead() && this.character.isStomping(enemy)) {
-    //             enemy.hit();
-    //             this.character.speedY = 15;
-    //             setTimeout(() => {
-    //                 this.level.enemies.splice(enemyIndex, 1);
-    //             }, 250)
-    //         }
-    //     })
     // }
 
     checkBottleHitsEnemies() {

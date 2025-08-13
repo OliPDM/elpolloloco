@@ -7,6 +7,7 @@ class Character extends MovableObject {
     world;
     coins = 0;
     energy = 100;
+    justStomped = false;
 
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
